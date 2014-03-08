@@ -1,0 +1,29 @@
+0 : 0 process forks to create 1 process
+0 : 0 process forks to create 2 process
+0 : 0 process terminates with 0 total CPU time
+0 : running process 1
+40 : running process 2
+80 : running process 1
+120 : running process 2
+160 : running process 1
+180 : 1 process requests DOWN on semaphore 2
+200 : running process 2
+220 : 2 process requests DOWN on semaphore 2
+220 : running process 1
+260 : running process 1
+280 : 1 process requests UP on semaphore 2
+285 : 1 process requests disk write
+295 : 1 process requests keyboard read
+295 : running process 2
+340 : running process 2
+365 : 2 process requests UP on semaphore 2
+375 : 2 process requests disk read
+375 : CPU idle
+395 : KEYBOARD_INTERRUPT for process 1
+395 : running process 1
+435 : DISK_INTERRUPT for process 2
+440 : running process 2
+480 : 2 process terminates with 200 total CPU time
+480 : running process 1
+485 : 1 process terminates with 240 total CPU time
+DONE
