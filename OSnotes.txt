@@ -1,0 +1,35 @@
+Swapping
+  -each process occupies a contiguous portion of memorym
+  -need to find hole large enough to fit process in
+    first fit - find first space big enough to use
+    best fit
+    worst fit
+  -best fit tends to fragment memory since it will almost fit, meaning a tiny sliver of free space is available
+  -worst fit destroys big holes so they aren't available for large processes
+
+How can OS keep track of free spaces?
+  1) Bitmap
+    each bit corresponds to some small block in memory (1kb)
+    0>free
+    1>full
+    Look for a series of 0's large enough to fit program
+    Needs memory itself
+
+  2) Keep a linked list of available holes (free list)
+     -pick the first hole on the list large enough for process (first fit)
+     -requires extra memory to store the linked list? No, linked list itself is in the free space
+        -the cells of the linked list are in the holes
+     -each hole contains pointer to next
+     -difficult to reconize adjacent holes
+        -at low load time, will compact list
+  3) Virtual Memory
+     -each process has a contiguous address space
+        -but this address space is virtual
+        -it won't be allocated in mmemory
+        -Slots in memory where a page fits is a page frame
+     -To translate the specified virtual address into a pysucial address. mNeed a tablem for each process
+that maps the pages in the virtual address space to the page fmrames - "page table"
+     -Each location at some offset in a page in the virtual address space corresponds to a location at the same offset of
+      the corresponding pagre frame in RAM
+     -Translation Process
+        virtual address->find page offset->conmvert page to page frame->compute page frame+offset -> physical address
