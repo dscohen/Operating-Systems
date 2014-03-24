@@ -1,0 +1,66 @@
+TLB - translation lookaside buffer
+  -small scache solely for holding the page table that are currently being used
+  - TLB hit is when page number is found in the TLB...RAM isn't required for translation from virtual to memory
+  - TLB miss is when desired page number is not in the TLB so MMU(memory management unit) has to go to the page table
+    unit in RAM to retrieve the page frame number
+
+Review:
+  Translation
+    VA is divided into page number and offset
+      all of it goes to MMU
+        MMU looks up page frame number corresponding to page number
+          reconstructs PA using same offset as before, but uses page frame number instead of page #.->PA in RAM
+      - First looks in TLB for frame number, then goes to RAM
+  Structure of page table:
+      R bit, M bit, page frame number
+      page number is index into page table
+
+Structure of TLB
+  [valid bit|page #|etc|R|M|page fram #]
+  [valid bit|page #|etc|R|M|page fram #]
+  [valid bit|page #|etc|R|M|page fram #]
+It is an associative cache
+  - Look up an entry according to its contents, not its index
+
+Example:
+TLB
+[v|p#|pf#]
+[0|6|#]
+[1|4|8]
+[1|0|4]
+[0|1|#]
+
+Page Table
+[present/absent bit|pf#]
+0[1|4]
+1[0|0]
+2[1|15]
+3[0|32]
+4[1|8]
+5[1|19]
+6[0|1]
+
+
+
+*************************************************************
+Suppose you have a machine w/ 16 bit addresses and a page size of 512 bytes.
+1) Given an address, how many bits are used for the page number and for the offset
+  offset is 9 bits, page number is rest (7 bits)
+2) What is the physical address corresponding to the virtual address: 0000100|000001111
+page # = 4 
+  look up TLB for page # 4
+  TLB hit: = 8
+           = 1000 binary
+0001000|000001111
+2a) Was there a TLB hit?
+Yes
+
+
+3) What is the physical address corresponding to the virtual address: 0000001|111101010
+TLB Miss
+Page table, at index 1, indicates that pageis in memory in page frame 0
+physical address is 0000000|111101010
+
+4) What happens i the CPU issues the virtua address 0000010|111111000
+  -Page Fault! - page table indicates that page is not in memory, on the disk
+   - disk read request
